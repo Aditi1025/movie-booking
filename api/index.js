@@ -25,10 +25,6 @@ mongoose.connection.on("disconnected", () => {
   console.log("mongoDB disconnected!");
 });
 
-// app.get("/", (req,res) => {
-//     res.send("hello")
-// })
-
 //middlewares
 // app.use(cors())
 app.use(cookieParser())
@@ -50,7 +46,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8800, () => {
+app.listen(3000, () => {
   connect();
   console.log("Connected to backend.");
 });

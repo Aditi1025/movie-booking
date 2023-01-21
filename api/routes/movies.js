@@ -14,7 +14,7 @@ import {
 
 import Movie from "../models/Movie.js";
 import { createError } from "../utils/error.js";
-// import {verifyAdmin} from "../utils/verifyToken.js"
+ import {verifyAdmin} from "../utils/verifyToken.js"
 
 const router = express.Router();
 
@@ -32,9 +32,9 @@ const router = express.Router();
 //     }
 // })
 
-router.post("/", createMovie);
+router.post("/", verifyAdmin, createMovie);
 
-// // //UPDATE
+//UPDATE
 // router.put("/:id", async (req,res) => {
     
 //     try{
@@ -49,13 +49,12 @@ router.post("/", createMovie);
 //     }
 // })
 
-router.put("/:id", updateMovie);
-// // //DELETE
-router.delete("/:id",  deleteMovie);
-// // //GET
-
+router.put("/:id",verifyAdmin, updateMovie);
+//DELETE
+router.delete("/:id", verifyAdmin, deleteMovie);
+//GET
 router.get("/find/:id", getMovie);
-// // //GET ALL
+//GET ALL
 // router.get("/", async (req,res,next) => {
 //     const failed = true;
 
@@ -70,8 +69,8 @@ router.get("/find/:id", getMovie);
 // })
 
 router.get("/", getMovies);
-router.get("/countByCity", countByCity);
-router.get("/countByType", countByType);
-router.get("/room/:id", getMovieRooms);
+// router.get("/countByCity", countByCity);
+// router.get("/countByType", countByType);
+// router.get("/room/:id", getMovieRooms);
 
 export default router;

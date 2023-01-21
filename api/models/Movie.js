@@ -1,32 +1,23 @@
 import mongoose from "mongoose";
-
 const MovieSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  type: {
+  genre: {
     type: String,
     required: true,
   },
-  city: {
-    type: String,
+  language: {
+    type: [String],
     required: true,
   },
-  address: {
-    type: String,
-    required: true,
-  },
-  distance: {
+  duration: {
     type: String,
     required: true,
   },
   photos: {
-    type: [String],
-  },
-  title: {
     type: String,
-    required: true,
   },
   desc: {
     type: String,
@@ -37,12 +28,13 @@ const MovieSchema = new mongoose.Schema({
     min: 0,
     max: 5,
   },
-  rooms: {
-    type: [String],
+  releaseDate:{
+   type: String,
+   required: true, 
   },
-  cheapestPrice: {
-    type: Number,
-    required: true,
+  cast: {
+    type: [String],
+    required:true,
   },
   featured: {
     type: Boolean,
