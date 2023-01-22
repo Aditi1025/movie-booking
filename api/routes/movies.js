@@ -3,7 +3,7 @@ import express from "express";
 // changed Movie stuff with movies and similarly changed the attributes for it as per ER-diagram
 import {
   countByCity,
-  countByType,
+  countByGenre,
   createMovie,
   deleteMovie,
   getMovie,
@@ -35,19 +35,19 @@ const router = express.Router();
 router.post("/", verifyAdmin, createMovie);
 
 //UPDATE
-// router.put("/:id", async (req,res) => {
+router.put("/:id", async (req,res) => {
     
-//     try{
-//         const updatedMovie = await Movie.findByIdAndUpdate(req.params.id, 
-//             { $set: req.body},
-//             {new: true}
-//             );
-//         res.status(200).json(updatedMovie)
-//     }
-//     catch(err){
-//         res.status(500).json(err)
-//     }
-// })
+    try{
+        const updatedMovie = await Movie.findByIdAndUpdate(req.params.id, 
+            { $set: req.body},
+            {new: true}
+            );
+        res.status(200).json(updatedMovie)
+    }
+    catch(err){
+        res.status(500).json(err)
+    }
+})
 
 router.put("/:id",verifyAdmin, updateMovie);
 //DELETE
@@ -69,6 +69,8 @@ router.get("/find/:id", getMovie);
 // })
 
 router.get("/", getMovies);
+router.get("/countByCity", countByCity);
+router.get("/countByGenre", countByGenre);
 // router.get("/countByCity", countByCity);
 // router.get("/countByType", countByType);
 // router.get("/room/:id", getMovieRooms);

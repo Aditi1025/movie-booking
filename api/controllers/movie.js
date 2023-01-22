@@ -46,11 +46,11 @@ export const getMovie = async (req, res, next) => {
 export const getMovies = async (req, res, next) => {
   const { min, max, ...others } = req.query;
   try {
-    const Movies = await Movie.find({
+    const movies = await Movie.find({
       ...others,
       cheapestPrice: { $gt: min | 1, $lt: max || 999 },
     }).limit(req.query.limit);
-    res.status(200).json(Movies);
+    res.status(200).json(movies);
   } catch (err) {
     next(err);
   }
@@ -70,20 +70,20 @@ export const countByCity = async (req, res, next) => {
   }
 };
 
-export const countByType = async (req, res, next) => {
+export const countByGenre = async (req, res, next) => {
   try {
-    const MovieCount = await Movie.countDocuments({ type: "Movie" });
-    const apartmentCount = await Movie.countDocuments({ type: "apartment" });
-    const resortCount = await Movie.countDocuments({ type: "resort" });
-    const villaCount = await Movie.countDocuments({ type: "villa" });
-    const cabinCount = await Movie.countDocuments({ type: "cabin" });
+    const comedyCount = await Movie.countDocuments({ genre: "Comedy" });
+    const fantasyCount = await Movie.countDocuments({ genre: "Fantasy" });
+    const romanticCount = await Movie.countDocuments({ genre: "Romantic" });
+    const thrillerCount = await Movie.countDocuments({ genre: "Thriller" });
+    const scifiCount = await Movie.countDocuments({ genre: "Scifi" });
 
     res.status(200).json([
-      { type: "Movie", count: MovieCount },
-      { type: "apartments", count: apartmentCount },
-      { type: "resorts", count: resortCount },
-      { type: "villas", count: villaCount },
-      { type: "cabins", count: cabinCount },
+      { genre: "Comedy", count: comedyCount },
+      { genre: "Fantasy", count: fantasyCount },
+      { genre: "Romantic", count: romanticCount },
+      { genre: "Thriller", count: thrillerCount },
+      { genre: "Scifi", count: scifiCount },
     ]);
   } catch (err) {
     next(err);
