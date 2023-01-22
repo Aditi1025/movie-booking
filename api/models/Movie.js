@@ -40,6 +40,9 @@ const MovieSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  theaters: {
+    type: [String]
+  }
 });
 
 export default mongoose.model("Movie", MovieSchema)

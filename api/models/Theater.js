@@ -17,7 +17,11 @@ const TheaterSchema = new mongoose.Schema(
         location:{
             type:String,
             required:true,
-        }
+        },
+        seats: {
+            type: [String],
+        },
+        
 });
 
 export default mongoose.model("Theater", TheaterSchema);
