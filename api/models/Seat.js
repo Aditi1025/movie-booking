@@ -17,6 +17,12 @@ const SeatSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
+
+        maxPeople: {
+            type: String,
+            required: true,
+        },
+        
         seatNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
 },
 {

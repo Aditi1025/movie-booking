@@ -1,7 +1,7 @@
 import React from "react";
 import useFetch from "../hooks/useFetch";
 import "./featured.css";
-// aditiiii
+
 const Featured = () => {
   const { data,loading,error } = useFetch("/movies/countByCity?cities=Delhi,Mumbai");
   // console.log(data);

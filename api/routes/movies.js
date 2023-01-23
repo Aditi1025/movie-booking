@@ -7,7 +7,7 @@ import {
   createMovie,
   deleteMovie,
   getMovie,
-  getMovieRooms,
+  getMovieTheater,
   getMovies,
   updateMovie,
 } from "../controllers/movie.js";
@@ -73,6 +73,6 @@ router.get("/countByCity", countByCity);
 router.get("/countByGenre", countByGenre);
 // router.get("/countByCity", countByCity);
 // router.get("/countByType", countByType);
-// router.get("/room/:id", getMovieRooms);
+router.get("/theater/:id", getMovieTheater);
 
 export default router;

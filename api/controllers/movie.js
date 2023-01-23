@@ -1,5 +1,5 @@
 import Movie from "../models/Movie.js";
-// import Room from "../models/Room.js";
+import Theater from "../models/Theater.js";
 
 export const createMovie = async (req, res, next) => {
   const newMovie = new Movie(req.body);
@@ -36,8 +36,8 @@ export const deleteMovie = async (req, res, next) => {
 
 export const getMovie = async (req, res, next) => {
   try {
-    const Movie = await Movie.findById(req.params.id);
-    res.status(200).json(Movie);
+    const movie = await Movie.findById(req.params.id);
+    res.status(200).json(movie);
   } catch (err) {
     next(err);
   }
@@ -90,12 +90,12 @@ export const countByGenre = async (req, res, next) => {
   }
 };
 
-export const getMovieRooms = async (req, res, next) => {
+export const getMovieTheater = async (req, res, next) => {
   try {
-    const Movie = await Movie.findById(req.params.id);
+    const movie = await Movie.findById(req.params.id);
     const list = await Promise.all(
-      Movie.rooms.map((room) => {
-        return Room.findById(room);
+      movie.theaters.map((theater) => {
+        return Theater.findById(theater);
       })
     );
     res.status(200).json(list)
