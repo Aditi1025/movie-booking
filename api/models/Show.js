@@ -10,6 +10,10 @@ const ShowSchema = new mongoose.Schema(
     hall:{
         type: String,
         required:true,
+     },
+    date: {
+        type: String,
+        required: true,
     },
     seats:[String]
   },
