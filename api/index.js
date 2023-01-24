@@ -7,6 +7,7 @@ import usersRoute from "./routes/users.js";
 import moviesRoute from "./routes/movies.js";
 import seatsRoute from "./routes/seats.js";
 import theatersRoute from "./routes/theaters.js";
+import showsRoute from "./routes/shows.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -35,6 +36,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/movies", moviesRoute);
 app.use("/api/seats", seatsRoute);
+app.use("/api/shows", showsRoute);
 app.use("/api/theaters", theatersRoute);
 
 app.use((err, req, res, next) => {
@@ -48,7 +50,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(8080, () => {
   connect();
   console.log("Connected to backend.");
 });

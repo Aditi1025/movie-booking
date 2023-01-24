@@ -7,21 +7,15 @@ const SeatSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
-        //hall in theater
-        hall: {
-            type: String,
-            required: true,
-        },
-        
         price: {
             type: Number,
             required: true
         },
 
-        maxPeople: {
-            type: String,
-            required: true,
-        },
+        // maxPeople: {
+        //     type: String,
+        //     required: true,
+        // },
         
         seatNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
 },

@@ -1,15 +1,14 @@
 import Seat from "../models/Seat.js";
-import { createError } from "../utils/error.js";
-import Theater from "../models/Theater.js";
+import Show from "../models/Show.js";
 
 export const createSeat = async (req, res, next) => {
-    const theaterId = req.params.theaterid;
+    const showId = req.params.showid;
     const newSeat = new Seat(req.body);
   
     try {
       const savedSeat = await newSeat.save();
       try {
-        await Theater.findByIdAndUpdate(theaterId, {
+        await Show.findByIdAndUpdate(showId, {
           $push: { seats: savedSeat._id },
         });
       } catch (err) {
@@ -49,11 +48,11 @@ export const createSeat = async (req, res, next) => {
     }
   };
   export const deleteSeat = async (req, res, next) => {
-    const theaterId = req.params.theaterid;
+    const showId = req.params.showid;
     try {
       await Seat.findByIdAndDelete(req.params.id);
       try {
-        await Theater.findByIdAndUpdate(theaterId, {
+        await Show.findByIdAndUpdate(showId, {
           $pull: { seats: req.params.id },
         });
       } catch (err) {
