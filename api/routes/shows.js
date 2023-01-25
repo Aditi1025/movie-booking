@@ -1,5 +1,5 @@
 import express from "express";
-import { createShow, deleteShow, getShow, getShows, updateShow } from "../controllers/show.js";
+import { createShow, deleteShow, getSeats, getShow, getShows, updateShow } from "../controllers/show.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 const router = express.Router();
 //CREATE
@@ -15,4 +15,5 @@ router.get("/:id", getShow);
 //GET ALL
 
 router.get("/", getShows);
+router.get("/seats/:showid", getSeats);
 export default router;

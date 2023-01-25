@@ -1,3 +1,4 @@
+import Seat from "../models/Seat.js";
 import Show from "../models/Show.js";
 import Theater from "../models/Theater.js";
 
@@ -64,3 +65,16 @@ export const getShows = async (req, res, next) => {
     next(err);
   }
 };
+export const getSeats = async (req, res, next) => {
+  try {
+    const show = await Show.findById(req.params.showid);
+    const list = await Promise.all(
+      show.seats.map((seat) => {
+        return Seat.findById(seat);
+      })
+    )
+    res.status(200).json(list);
+  } catch (err) {
+    next(err);
+  }
+}

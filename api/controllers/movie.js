@@ -1,5 +1,7 @@
 import Movie from "../models/Movie.js";
 import Theater from "../models/Theater.js";
+import Show from "../models/Show.js";
+import Seat from "../models/Seat.js";
 
 export const createMovie = async (req, res, next) => {
   const newMovie = new Movie(req.body);
@@ -98,7 +100,17 @@ export const getMovieTheater = async (req, res, next) => {
         return Theater.findById(theater);
       })
     );
-    res.status(200).json(list)
+    const obj = [];
+    for (let i = 0; i < list.length; i++){
+      const theater = list[i];
+      const shows = await Promise.all(
+        theater.shows.map((show) => {
+          return Show.findById(show);
+        })
+      );
+      obj.push({ theater: theater, shows: shows});
+    }
+    res.status(200).json(obj)
   } catch (err) {
     next(err);
   }

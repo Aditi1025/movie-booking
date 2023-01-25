@@ -10,21 +10,26 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useFetch from "../../components/hooks/useFetch";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import Reserve from "../../components/reserve/Reserve";
+import { SearchContext } from "../../context/SearchContext";
 
 const Movie = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
-
-  const { data, loading, error , reFetch} = useFetch(`/movies/find/${id}`);
+  const [openModal, setOpenModal] = useState(false);
+  const { data, loading, error, reFetch } = useFetch(`/movies/find/${id}`);
+  const [showId, setShowId] = useState("");
+  const [showTime, setShowTime] = useState("");
+  const fobj= useFetch(`/movies/theater/${id}`);
   // const { data, loading, error, reFetch } = useFetch(
   //   `/movies?city=${destination}&min=${min || 0 }&max=${max || 999}`
   //   );
-  console.log(data);
   const photos = [
     {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1",
@@ -45,12 +50,12 @@ const Movie = () => {
       src: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1",
     },
   ];
-
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
   };
-
   const handleMove = (direction) => {
     let newSlideNumber;
 
@@ -62,12 +67,24 @@ const Movie = () => {
 
     setSlideNumber(newSlideNumber)
   };
-
+  
+  const handleClick = (e,sid,stime) => {
+    e.preventDefault();
+    if (user) {
+      setShowId(sid);
+      setShowTime(stime);
+      setOpenModal(true);
+    } else {
+      navigate("/");
+    }
+  }
   return (
     <div>
       <Navbar />
       <Header type="list" />
-      { loading ? ("loading") : (
+      {loading ? (
+        "loading"
+      ) : (
         <div className="movieContainer">
           {open && (
             <div className="slider">
@@ -82,7 +99,11 @@ const Movie = () => {
                 onClick={() => handleMove("l")}
               />
               <div className="sliderWrapper">
-                <img src={photos[slideNumber].src} alt="" className="sliderImg" />
+                <img
+                  src={photos[slideNumber].src}
+                  alt=""
+                  className="sliderImg"
+                />
               </div>
               <FontAwesomeIcon
                 icon={faCircleArrowRight}
@@ -102,7 +123,8 @@ const Movie = () => {
               Excellent location – {data.distance}m from center
             </span>
             <span className="moviePriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a free airport taxi
+              Book a stay over ${data.cheapestPrice} at this property and get a
+              free airport taxi
             </span>
             <div className="movieImages">
               {photos.map((photo, i) => (
@@ -119,26 +141,33 @@ const Movie = () => {
             <div className="movieDetails">
               <div className="movieDetailsTexts">
                 <h1 className="movieTitle">{data.title}</h1>
-                <p className="movieDesc">
-                  {data.desc}
-                </p>
+                <p className="movieDesc">{data.desc}</p>
               </div>
-              <div className="movieDetailsPrice">
-                <h1>Perfect for a 9-night stay!</h1>
-                <span>
-                  Located in the real heart of Krakow, this property has an
-                  excellent location score of 9.8!
-                </span>
-                <h2>
-                  <b>$945</b> (9 nights)
-                </h2>
-                <button>Reserve or Book Now!</button>
+              <div>
+                {fobj.data.map((item) => (
+                  <div key={item.theater._id}>
+                    <p>{item.theater.name}</p>
+                    <p>
+                      {item.theater.country} {item.theater.city}{" "}
+                      {item.theater.location}
+                    </p>
+                    {item.shows.map((show) => (
+                      <div key={show._id}>
+                        <button onClick={(e) => handleClick(e,show._id,show.time)}>
+                          {show.time}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
           <MailList />
           <Footer />
-      </div>)}
+        </div>
+      )}
+      {openModal && <Reserve setOpen={setOpenModal} showId={showId} showTime={showTime} duration={data.duration} />}
     </div>
   );
 };
