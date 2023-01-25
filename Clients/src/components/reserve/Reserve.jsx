@@ -7,19 +7,16 @@ import { SearchContext } from "../../context/SearchContext";
 const Reserve = ({ setOpen, showId,showTime,duration }) => {
     const { data, loading, error } = useFetch(`/shows/seats/${showId}`);
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const { dates } = useContext(SearchContext);
-    const startDate = new Date(dates[0].startDate);
+    const searchContext = useContext(SearchContext);
+    const dates = (searchContext.dates === undefined||searchContext.dates.length===0) ? [""+new Date()] : [searchContext.dates[0].startDate];
+    const startDate = new Date(dates[0]);
     const startTime = showTime.split(":");
     startDate.setHours(startTime[0], startTime[1]);
-    const begin = startDate.getTime();
+    const begin = startDate;
     const str1 = duration.split("h");
-    const str2 = str1[1].substring(0, str1.length[1] - 1);
-    const dur = parseInt(str1[0]) + parseInt(str2) * 60;
+    const str2 = str1[1].substring(0, str1[1].length - 1);
+    const dur = parseInt(str1[0])*60 + parseInt(str2);
     const blockedTimes = [];
-    for (let i = 0; i <= dur; i++){
-        begin.setMinutes(begin.getMinutes() + i);
-        blockedTimes.push(begin);
-    }
     console.log(blockedTimes);
     const handleSelect = (e) => {
        const checked = e.target.checked;
