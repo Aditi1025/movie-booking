@@ -21,7 +21,7 @@ const MovieSchema = new mongoose.Schema({
     required: true,
   },
   photos: {
-    type: String,
+    type: [String],
   },
   desc: {
     type: String,
@@ -38,7 +38,6 @@ const MovieSchema = new mongoose.Schema({
   },
   cast: {
     type: [String],
-    required:true,
   },
   featured: {
     type: Boolean,

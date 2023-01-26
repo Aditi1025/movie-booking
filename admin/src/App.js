@@ -3,13 +3,15 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
+import NewMovie from "./pages/newMovie/NewMovie";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { productInputs, userInputs } from "./formSource";
+import { movieInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-
+import { userColumns } from "./datatablesource";
+import { movieColumns } from "./datatablesource";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -39,7 +41,7 @@ function App() {
             />
             <Route path="users">
               <Route index element={<ProtectedRoute>
-                  <List />
+                  <List columns={userColumns} />
                 </ProtectedRoute>} />
               <Route path=":userId" element={<ProtectedRoute>
                   <Single />
@@ -49,16 +51,16 @@ function App() {
                 element={<ProtectedRoute> <New inputs={userInputs} title="Add New User" /> </ProtectedRoute>}
               />
             </Route>
-            <Route path="products">
+            <Route path="movies">
               <Route index element={<ProtectedRoute>
-                  <List />
+                  <List columns={movieColumns}/>
                 </ProtectedRoute>} />
-              <Route path=":productId" element={<ProtectedRoute>
+              <Route path=":moviedId" element={<ProtectedRoute>
                   <Single />
                 </ProtectedRoute>} />
               <Route
                 path="new"
-                element={<ProtectedRoute> <New inputs={productInputs} title="Add New Product" /> </ProtectedRoute>}
+                element={<ProtectedRoute> <NewMovie /> </ProtectedRoute>}
               />
             </Route>
           </Route>

@@ -1,77 +1,90 @@
 export const userInputs = [
     {
-      id: 1,
+      id: "username",
       label: "Username",
       type: "text",
       placeholder: "john_doe",
     },
     {
-      id: 2,
-      label: "Name and surname",
-      type: "text",
-      placeholder: "John Doe",
-    },
-    {
-      id: 3,
+      id: "email",
       label: "Email",
       type: "mail",
       placeholder: "john_doe@gmail.com",
     },
     {
-      id: 4,
+      id: "phone",
       label: "Phone",
       type: "text",
       placeholder: "+1 234 567 89",
     },
     {
-      id: 5,
+      id: "password",
       label: "Password",
       type: "password",
     },
     {
-      id: 6,
-      label: "Address",
+      id: "city",
+      label: "City",
       type: "text",
-      placeholder: "Elton St. 216 NewYork",
+      placeholder: "NewYork",
     },
     {
-      id: 7,
+      id: "country",
       label: "Country",
       type: "text",
       placeholder: "USA",
     },
   ];
   
-  export const productInputs = [
+  export const movieInputs = [
     {
-      id: 1,
-      label: "Title",
+      id: "name",
+      label: "Name",
       type: "text",
-      placeholder: "Apple Macbook Pro",
+      placeholder: "Movie's name",
     },
     {
-      id: 2,
+      id: "city",
+      label: "City",
+      type: "text",
+      placeholder: "City",
+    },
+    {
+      id: "genre",
+      label: "Genre",
+      type: "text",
+      placeholder: "Genre",
+    },
+    {
+      id: "language",
+      label: "Language",
+      type: "text",
+      placeholder: "Movie's language",
+    },
+    {
+      id: "duration",
+      label: "Duration",
+      type: "text",
+      placeholder: "Movie duration",
+    },
+    {
+      id: "desc",
       label: "Description",
       type: "text",
-      placeholder: "Description",
+      placeholder: "Movie description",
     },
     {
-      id: 3,
-      label: "Category",
+      id: "releaseDate",
+      label: "Release Date",
       type: "text",
-      placeholder: "Computers",
+      placeholder: "Movie release date",
     },
-    {
-      id: 4,
-      label: "Price",
-      type: "text",
-      placeholder: "100",
-    },
-    {
-      id: 5,
-      label: "Stock",
-      type: "text",
-      placeholder: "in stock",
-    },
+    // {
+    //   id: "cast",
+    //   label: "Cast",
+    //   type: "text",
+    //   placeholder: "Movie Cast",
+    // },
+    
   ];
   
