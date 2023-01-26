@@ -17,7 +17,7 @@ const SeatSchema = new mongoose.Schema(
         //     required: true,
         // },
         
-        seatNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
+        seatNumbers: [{ number: Number, unavailableDates: {type: [Number]}}],
 },
 {
     timestamps: true

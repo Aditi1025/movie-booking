@@ -4,20 +4,20 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState,useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
-const Reserve = ({ setOpen, showId,showTime,duration }) => {
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const Reserve = ({ setOpen, showId,showTime}) => {
     const { data, loading, error } = useFetch(`/shows/seats/${showId}`);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [berror, setBerror] = useState("");
     const searchContext = useContext(SearchContext);
-    const dates = (searchContext.dates === undefined||searchContext.dates.length===0) ? [""+new Date()] : [searchContext.dates[0].startDate];
-    const startDate = new Date(dates[0]);
-    const startTime = showTime.split(":");
-    startDate.setHours(startTime[0], startTime[1]);
-    const begin = startDate;
-    const str1 = duration.split("h");
-    const str2 = str1[1].substring(0, str1[1].length - 1);
-    const dur = parseInt(str1[0])*60 + parseInt(str2);
-    const blockedTimes = [];
-    console.log(blockedTimes);
+    const dates = (searchContext.dates === undefined||searchContext.dates.length===0) ? [new Date()] : [new Date(searchContext.dates[0].startDate)];
+    const stime = showTime.split(":");
+    dates[0].setHours(stime[0],stime[1],"0","0");
+    const isAvailable = (seatNumber) => {
+      const isFound = seatNumber.unavailableDates.includes(dates[0].getTime());
+      return isFound;
+    }
     const handleSelect = (e) => {
        const checked = e.target.checked;
        const value = e.target.value;
@@ -27,8 +27,23 @@ const Reserve = ({ setOpen, showId,showTime,duration }) => {
            : selectedSeats.filter((item) => item !== value)
        );
     };
-    const handleClick = (e) => {
-        e.preventDefault();
+  const navigate = useNavigate();
+    const handleClick = async(e) => {
+      e.preventDefault();
+      try {
+        await Promise.all(
+          selectedSeats.map(async (selectedSeat) => {
+            const res = await axios.put(`/seats/availability/${selectedSeat}`, {
+              dates: dates[0].getTime()
+            });
+            return res.data;
+          })
+        );
+        setOpen(false);
+        navigate("/");
+      } catch (err) {
+        setBerror(err);
+      }
     }
     return (
       <div className="reserve">
@@ -44,21 +59,23 @@ const Reserve = ({ setOpen, showId,showTime,duration }) => {
               <div className="rItemInfo">
                 <div className="rTitle">{item.name}</div>
                 <div className="rPrice">{item.price} rupees</div>
+              </div>  
                 <div className="rSelectRooms">
                   {item.seatNumbers.map((seatNumber) => (
-                    <div className="room">
+                    <div className="room" key={seatNumber._id}>
                       <label>{seatNumber.number}</label>
                       <input
                         type="checkbox"
                         value={seatNumber._id}
                         onChange={handleSelect}
+                        disabled={isAvailable(seatNumber)}
                       />
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
           ))}
+          <span>{berror}</span>
           <button onClick={(e)=>handleClick(e)} className="rButton">
             Reserve Now!
           </button>
