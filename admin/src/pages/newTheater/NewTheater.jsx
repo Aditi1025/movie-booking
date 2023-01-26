@@ -3,50 +3,76 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import { theaterInputs } from "../../formSource";
+import useFetch from "../../hooks/useFetch";
+import axios from "axios";
 
-const NewTheater = ({ inputs, title }) => {
-  const [file, setFile] = useState("");
+const NewTheater = () => {
+  const [info, setInfo] = useState({});
+  const [movieId, setMovieId] = useState(undefined);
+  const [theaters, setTheaters] = useState([]);
 
+  const { data, loading, error } = useFetch("/movies");
+
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const theaterNumbers = theaters.split(",").map((theater) => ({ number: theater }));
+    try {
+      await axios.post(`/theaters/${movieId}`, { ...info, theaterNumbers });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(info)
   return (
     <div className="new">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>{title}</h1>
+          <h1>Add New Theater</h1>
         </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
             <form>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
-
-              {inputs.map((input) => (
+              {theaterInputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    id={input.id}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    onChange={handleChange}
+                  />
                 </div>
               ))}
-              <button>Send</button>
+              <div className="formInput">
+                <label>Theaters</label>
+                <textarea
+                  onChange={(e) => setTheaters(e.target.value)}
+                  placeholder="give comma between theater numbers."
+                />
+              </div>
+              <div className="formInput">
+                <label>Choose a movie</label>
+                <select
+                  id="movieId"
+                  onChange={(e) => setMovieId(e.target.value)}
+                >
+                  {loading
+                    ? "loading"
+                    : data &&
+                      data.map((movie) => (
+                        <option key={movie._id} value={movie._id}>{movie.name}</option>
+                      ))}
+                </select>
+              </div>
+              <button onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>

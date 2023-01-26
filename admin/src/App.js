@@ -10,8 +10,8 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { userColumns } from "./datatablesource";
-import { movieColumns } from "./datatablesource";
+import { userColumns, movieColumns, theaterColumns } from "./datatablesource";
+import NewTheater from "./pages/newTheater/NewTheater";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -61,6 +61,18 @@ function App() {
               <Route
                 path="new"
                 element={<ProtectedRoute> <NewMovie /> </ProtectedRoute>}
+              />
+            </Route>
+            <Route path="theater">
+              <Route index element={<ProtectedRoute>
+                  <List columns={theaterColumns}/>
+                </ProtectedRoute>} />
+              <Route path=":theaterId" element={<ProtectedRoute>
+                  <Single />
+                </ProtectedRoute>} />
+              <Route
+                path="new"
+                element={<ProtectedRoute> <NewTheater /> </ProtectedRoute>}
               />
             </Route>
           </Route>

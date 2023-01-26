@@ -63,23 +63,18 @@ export const movieColumns = [
 export const theaterColumns = [
   { field: "_id", headerName: "ID", width: 70 },
   {
-    field: "title",
-    headerName: "Title",
+    field: "name",
+    headerName: "Name",
     width: 230,
   },
   {
-    field: "desc",
-    headerName: "Description",
+    field: "location",
+    headerName: "Location",
     width: 200,
   },
   {
-    field: "price",
-    headerName: "Price",
-    width: 100,
-  },
-  {
-    field: "maxPeople",
-    headerName: "Max People",
-    width: 100,
+    field: "shows",
+    headerName: "shows",
+    width: 150,
   },
 ];

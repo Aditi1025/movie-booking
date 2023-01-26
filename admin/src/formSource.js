@@ -87,4 +87,25 @@ export const userInputs = [
     // },
     
   ];
+
+  export const theaterInputs = [
+    {
+      id: "name",
+      label: "Name",
+      type: "text",
+      placeholder: "Theater Name",
+    },
+    {
+      id: "location",
+      label: "Location",
+      type: "text",
+      placeholder: "location",
+    },
+    {
+      id: "shows",
+      label: "Shows",
+      type: "[string]",
+      placeholder: "100",
+    },
+  ];
   
