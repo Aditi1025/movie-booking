@@ -63,11 +63,11 @@ function App() {
                 element={<ProtectedRoute> <NewMovie /> </ProtectedRoute>}
               />
             </Route>
-            <Route path="theater">
+            <Route path="theaters">
               <Route index element={<ProtectedRoute>
                   <List columns={theaterColumns}/>
                 </ProtectedRoute>} />
-              <Route path=":theaterId" element={<ProtectedRoute>
+              <Route path=":movieId" element={<ProtectedRoute>
                   <Single />
                 </ProtectedRoute>} />
               <Route

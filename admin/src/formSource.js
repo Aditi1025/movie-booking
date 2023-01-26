@@ -107,5 +107,11 @@ export const userInputs = [
       type: "[string]",
       placeholder: "100",
     },
+    {
+      id: "city",
+      label: "City",
+      type: "string",
+      placeholder: "NYC",
+    },
   ];
   

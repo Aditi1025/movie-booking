@@ -77,4 +77,9 @@ export const theaterColumns = [
     headerName: "shows",
     width: 150,
   },
+  {
+    field: "city",
+    headerName: "City",
+    width: 150,
+  },
 ];

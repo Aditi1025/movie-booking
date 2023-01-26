@@ -8,7 +8,6 @@ const TheaterSchema = new mongoose.Schema(
         },
         country: {
             type: String,
-            required: true,
         },
         city:{
             type:String,

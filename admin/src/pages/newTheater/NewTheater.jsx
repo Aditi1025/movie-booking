@@ -19,6 +19,7 @@ const NewTheater = () => {
   };
 
   const handleClick = async (e) => {
+    console.log(movieId);
     e.preventDefault();
     const theaterNumbers = theaters.split(",").map((theater) => ({ number: theater }));
     try {
