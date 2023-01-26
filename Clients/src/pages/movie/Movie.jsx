@@ -167,7 +167,7 @@ const Movie = () => {
           <Footer />
         </div>
       )}
-      {openModal && <Reserve setOpen={setOpenModal} showId={showId} showTime={showTime} duration={data.duration} />}
+      {openModal && <Reserve setOpen={setOpenModal} showId={showId} showTime={showTime} />}
     </div>
   );
 };

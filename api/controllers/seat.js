@@ -35,10 +35,10 @@ export const createSeat = async (req, res, next) => {
   export const updateSeatAvailability = async (req, res, next) => {
     try {
       await Seat.updateOne(
-        { "SeatNumbers._id": req.params.id },
+        { "seatNumbers._id": req.params.id },
         {
-          $push: {
-            "SeatNumbers.$.unavailableDates": req.body.dates
+          $push: { 
+            "seatNumbers.$.unavailableDates": req.body.dates
           },
         }
       );
